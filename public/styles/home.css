@@ -98,3 +98,61 @@
   height: 100%;
   background-color: #f5f5f5; /* Light background color for image margins */
 }
+
+@media (max-width: 768px) {
+  /* Fix for navbar on mobile */
+  .navbar .container-fluid {
+      justify-content: center !important;
+      text-align: center;
+  }
+  
+  .navbar .btns {
+      margin-top: 10px;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+  }
+  
+  /* Fix carousel height for mobile */
+  .carousel-item img {
+      height: 300px !important;
+      object-fit: cover !important;
+  }
+  
+  /* Services section for mobile */
+  .services-section .col-md-8.col-lg-4 {
+      margin: 0 auto;
+  }
+  
+  /* How it works section for mobile */
+  .how-itw .row {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+  }
+  
+  /* Developers section for mobile */
+  .developers-section .col-md-5 {
+      margin-left: auto !important;
+      margin-right: auto !important;
+  }
+  
+  /* Fix map iframe width for mobile */
+  iframe {
+      width: 100% !important;
+      height: 300px !important;
+  }
+  
+  /* Modal fixes for mobile */
+  .modal-dialog {
+      margin: 10px;
+  }
+  
+  .modal-content {
+      width: 100%;
+  }
+  
+  /* Input fields in modals */
+  input, select {
+      max-width: 90%;
+  }
+}
