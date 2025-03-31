@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f4f7f6;
+        }
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        .sidebar .nav-link:active {
+            color: white;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <script>
+        function init(){
+            let activeUser=localStorage.getItem("activeUser")
+            document.getElementById("user").innerHTML=activeUser;
+        }
+
+        function profilemanage(){
+            window.location.href="/0_client-profile.html";
+        }
+
+        function postjob(){
+            window.location.href="/0_client-post-job.html";
+        }
+
+        function jobmanager() {
+            window.location.href="/0_job-manager.html";
+        }
+
+        function doLogout(){
+            localStorage.removeItem("activeUser");
+            window.location.href="/index.html"
+        }
+    </script>
+
+    
+    
+</head>
+<body onload="init();">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <h2 class="text-center text-white my-4">Client Hub</h2>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./0_client-dash.html">
+                                <i class="bi bi-grid-fill me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./0_client-profile.html">
+                                <i class="bi bi-person-circle me-2"></i>Profile
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
+
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3">
+                    <h1 class="h2">Welcome to Dashboard: <span id="user"></span></h1>
+                </div>
+
+                <!-- Cards Section -->
+
+                <div class="row g-4">
+                    
+                    <div class="col-md-6 col-lg-3" >
+                        <div class="card card-hover border-primary shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-person-circle fs-1 text-primary mb-3 d-block"></i>
+                                <h5 class="card-title">Profile Management</h5>
+                                <p class="card-text text-muted">Update personal details</p>
+                                <button class="btn btn-primary" onclick="profilemanage();">Manage Profile</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-hover border-success shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-briefcase fs-1 text-success mb-3 d-block"></i>
+                                <h5 class="card-title">Post a Job</h5>
+                                <p class="card-text text-muted">Create new job listings</p>
+                                <button class="btn btn-success" onclick="postjob();">Create Job</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-hover border-warning shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-task fs-1 text-warning mb-3 d-block"></i>
+                                <h5 class="card-title">Job Manager</h5>
+                                <p class="card-text text-muted">Track your job postings</p>
+                                <button class="btn btn-warning" onclick="jobmanager();">View Jobs</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-hover border-danger shadow-sm">
+                            <div class="card-body text-center">
+                                <i class="bi bi-box-arrow-right fs-1 text-danger mb-3 d-block"></i>
+                                <h5 class="card-title">Logout</h5>
+                                <p class="card-text text-muted">Exit your account</p>
+                                <button class="btn btn-danger" onclick="doLogout();">Sign Out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+    </div>
+
+   
+    </body>
+</html>

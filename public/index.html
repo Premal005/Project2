@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextHope</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script>
+        $(document).ready(function(){
+           $("#signup").click(function(){
+               let obj={
+                   type:"get",
+                   url:"/save-details",
+                   data:{
+                       x: $("#txtEmail").val(),
+                       y: $("#txtPwd").val(),
+                       z: $("#txtValue").val(),
+                       
+                   }
+               }
+               $.ajax(obj)
+               .then(function(responseInJsonAry)
+               {
+                   $("#ress").html("<hr>")
+                   $("#res").html(responseInJsonAry)
+                   
+               }).fail(function(err)
+               {
+                   $("#ress").html("<hr>")
+                   $("#res").html(responseInJsonAry)
+               })
+           })
+
+           $("#login").click(function(){
+               let obj={
+                   type:"get",
+                   url:"/login-details",
+                   data:{
+                       x: $("#txtEmail1").val(),
+                       y: $("#txtPwd1").val()                        
+                   }
+               }
+               $.ajax(obj)
+               .then(function(response)
+               {
+                   
+                   if(response=="client"){
+                    
+                    localStorage.setItem("activeUser",$("#txtEmail1").val());
+                    window.location.href="/0_client-dash.html";
+                   }
+                   else if (response=="volunteer"){
+                    localStorage.setItem("activeUser",$("#txtEmail1").val());
+                    window.location.href="/1_volunteer-dash.html";
+                   }
+                   else if (response=="admin"){
+                    localStorage.setItem("activeUser",$("#txtEmail1").val());
+                    window.location.href="/2_admin-dash.html";
+                   }
+
+                   else{
+                    $("#ress").html("<hr>")
+                   $("#res2").html(JSON.stringify(response))
+                   }
+                   
+                   
+               }).fail(function(err)
+               {
+                   $("#ress").html("<hr>")
+                   $("#res2").html(err)
+               })
+           })
+       })
+    </script>
+
+    <link rel="stylesheet" href="./styles/home.css">
+</head>
+<body>
+
+    <!-- Nav Bar -->
+    <div class="navbar navbar-light bg-light p-0">
+        <div class="container-fluid d-flex" style="height: 60px;align-items: center; justify-content: space-between;">
+            <div style="height: inherit; width: 200px; display: flex; align-items: center; justify-content: center;">
+
+                <a href="#">
+                    <img src="./uploads/Screenshot_2025-03-25_184748-removebg-preview.png" width="45" height="45" style="margin-right: 15px; margin-top: 0; padding-top: 0;">
+                </a>
+
+
+                <div class="fw-bold" style="font-size: 1.65rem; font-family: Georgia, serif; padding-top: 5px;">
+                    NextHope
+                    <p class="text-muted" style="font-size: 0.45rem;">Aiming for a Beggar-free Society</p>
+                </div>
+            </div>
+
+            <div class="btns">
+                <button type="button" value="Signup" id="Sgn"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fas fa-user-plus me-2"></i>Signup</button>
+    
+                <button type="button" value="Login" id="Lgn"  class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login</button>
+    
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="/save-details" method="get" enctype="multipart/form-data">
+                            <center>
+                                <div>
+                                    <br>
+                                    <h3>Signup</h3>
+                                    <br>
+                                    <p>Email ID</p>
+                                    <input type="email" name="txtEmail" id="txtEmail" required>
+                                    <br><br>
+                                    <p>Password</p>
+                                    <input type="password" name="txtPwd" id="txtPwd" required>
+                                    <br><br>
+                                    <p>User Type</p>
+                                    <Select name="txtValue" id="txtValue" required>
+                                        <option value="none">None</option>
+                                        <option value="client">Client</option>
+                                        <option value="volunteer">Volunteer</option>
+                                    </Select>
+                                    <br><br>
+                                    <input type="button" class="btn btn-primary" value="Signup" id="signup">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <p id="ress"></p>
+                                    <p id="res"></p>
+                                </div>
+                            </center>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+    
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <form action="/login-details" method="get" enctype="multipart/form-data">
+                            <center>
+                                <div>
+                                    <br>
+                                    <h3>Login</h3>
+                                    <br>
+                                    <p>Email ID</p>
+                                    <input type="email" name="txtEmail1" id="txtEmail1">
+                                    <br>
+                                    <p>Password</p>
+                                    <input type="password" name="txtPwd1" id="txtPwd1">
+                                    <br><br>
+                                    <input type="button" value="Login" id="login" class="btn btn-primary">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <p id="ress"></p>
+                                    <p id="res2"></p>
+                                </div>
+                            </center>
+                        </form>
+                      </div>
+                    </div>
+                </div>
+    
+            </div>
+            
+          
+        </div>
+
+          
+    </div>
+
+    <!-- Wallpaper Carousel -->
+    <div id="carouselExampleIndicators" class="carousel slide " data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="./uploads/change.jpg" class="d-block w-100 h-100 object-fit-contain" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="./uploads/pic.png" class="d-block w-100 h-100 object-fit-contain" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="./uploads/main.png" class="d-block w-100 h-100 object-fit-contain" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Our Services-->
+    <section class="services-section" id="servicess">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h2 class="display-6 fw-bold"style="margin-bottom: 20px;">Our Services</h2>
+                    <p class="mb-5">We connect Beggars with Clients in need to create meaningful employment opportunities and restore dignity.</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                
+                <div class="col-md-8 col-lg-4">
+                    <div class="card service-card">
+                        <img src="./uploads/download.jpeg" class="card-img-top" alt="Job Placement">
+                        <div class="card-body">
+                            <h5 class="card-title">Job Opportunities</h5>
+                            <p class="card-text">A beggar-free society means ending begging and empowering people with resources and opportunities to rebuild their lives with dignity.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8 col-lg-4">
+                    <div class="card service-card">
+                        <img src=".//uploads/volunteer-help-donation-hope-kindness-concept-83519204.webp" class="card-img-top" alt="Mentorship Programs">
+                        <div class="card-body">
+                            <h5 class="card-title">Volunteer</h5>
+                            <p class="card-text">Anyone can volunteer to help create a beggar-free society, support the homeless, and raise awareness.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 col-lg-4">
+                    <div class="card service-card">
+                        <img src="./uploads/images.png" class="card-img-top" alt="Skills Assessment">
+                        <div class="card-body">
+                            <h5 class="card-title">24x7 Support</h5>
+                            <p class="card-text">Dedicated support available anytime to guide and assist you on your journey to a better life.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <div class="row justify-content-center how-itw" id="howitworks">
+
+        <div class="col-md-8 text-center" style="margin-top: 20px;">
+            <h2 class="display-6 fw-bold"style="margin-bottom: 20px;">How It Works</h2>
+            <p class="mb-5" >Our streamlined process connects volunteers, beggars and employers to create meaningful employment opportunities.</p>
+        </div>
+
+        <div class="row mb-7" style="padding-left: 50px; padding-right: 50px;">
+
+            <div class="col-md-3">
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <img width="40" height="40" src="https://img.icons8.com/pulsar-line/48/add-user-male.png" alt="add-user-male" style="margin-left: 8px;"/>                  
+                    <h3 class="step-title">Registration</h3>
+                    <p>Volunteers and Clients register on our platform, creating profiles with necessary information.</p>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-3">
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <img width="40" height="40" src="https://img.icons8.com/fluency-systems-regular/48/user-menu-female.png" alt="user-menu-female" style="margin-left: 8px;"/>              
+                    <h3 class="step-title">Profile Creation</h3>
+                    <p>Volunteers help in creating profiles of individuals seeking employment, highlighting skills.</p>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-3">
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <img width="40" height="40" src="https://img.icons8.com/fluency-systems-regular/48/merge.png" alt="merge" style="margin-left: 8px;" />
+                    <h3 class="step-title">Matching</h3>
+                    <p>Our system matches beggars with employment opportunities based on their skills and requirements.</p>
+                </div>
+            </div>
+            
+            
+            <div class="col-md-3">
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <img width="40" height="40" src="https://img.icons8.com/fluency-systems-regular/48/office.png" alt="office" style="margin-left: 8px;"/>
+                    <h3 class="step-title">Employment</h3>
+                    <p>Volunteers facilitate the process and provide ongoing support to beggars.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Developers -->
+    <section class="developers-section container py-5" id="developerss">
+        <div class="row text-center">
+            <div class="col-12 mb-5">
+                <h2 class="display-6 fw-bold">Meet The Team</h2>
+            </div>
+            
+            <div class="col-md-5 mb-4" style="margin-left: 90px;">
+                <div class="team-card p-4 h-100 shadow-lg" style="border-radius: 20px;">
+                    <h3 class="h5 mb-3">Under the Guidance of</h3>
+                    <div class="team-member">
+                        <img src="./uploads/Rajesh Sir.jpg" alt="Mr. Rajesh Bansal" class="rounded-circle mb-3" height="150px" width="150px">
+                        <h4 class="h5">Mr. Rajesh Bansal</h4>
+                        <p class="text-muted">Project Mentor</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5 mb-4" style="margin-left: 10px;">
+                <div class="team-card p-4 h-100 shadow-lg" style="border-radius: 20px;">
+                    <h3 class="h5 mb-3">Developed By</h3>
+                    <div class="team-member">
+                        <img src="./uploads/Premal_Goyal2.jpg" alt="Premal Goyal" class="rounded-circle mb-3" height="150px" width="150px">
+                        <h4 class="h5">Premal Goyal</h4>
+                        <p class="text-muted">Lead Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>About NextHope</h5>
+                    <p>We are committed to creating a society where everyone has access to dignified employment opportunities.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="./index.html" class="text-white">Home</a></li>
+                        <li><a href="#servicess" class="text-white">Our Services</a></li>
+                        <li><a href="#howitworks" class="text-white">How It Works</a></li>
+                        <li><a href="#developerss" class="text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i> contact@nexthope.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 9878369000</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h5>Reach Us</h5>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110335.61286032868!2d74.87628469862979!3d30.208892742220375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39173297173abbcd%3A0xa00033c0a58a5ac8!2sBathinda%2C%20Punjab!5e0!3m2!1sen!2sin!4v1743236344923!5m2!1sen!2sin" width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+
+
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2025 NextHope. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white mx-2"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/premalgoyal/" class="text-white mx-2"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/premal-goyal-0a6511287/" class="text-white mx-2"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

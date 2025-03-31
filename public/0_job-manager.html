@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f7f6;
+        }
+        .sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .job-card-hover:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+    <script>
+        function init(){
+            let activeUser=localStorage.getItem("activeUser")
+            document.getElementById("email").value=activeUser;
+        }
+    </script>
+    <script>
+        let mymodule = angular.module("clientDashboardApp", []);
+        let myController = mymodule.controller("JobManagerController", function($scope, $http) {
+            $scope.jsonAry = [];
+            $scope.email = localStorage.getItem("activeUser") 
+            
+            $scope.dogetjobs = function(email) {
+                let url = "/do-get-jobs?emailKuch=" + email;
+                $http.get(url).then(fxSuccess, fxFail);
+
+                function fxSuccess(response) {
+                    $scope.jsonAry = response.data;
+                }
+                function fxFail(err) {
+                    alert(err.data);
+                }
+            }
+
+            $scope.doDelete = function(email, jobtitle, jobtype, location, city, edu, contact) {
+                if (!confirm('Are you sure you want to delete this job?')) {
+                    return;
+                }
+                
+                let url = "/do-delete-jobs?emailKuch=" + email + "&jobTitle=" + jobtitle + "&jobtype=" + jobtype + "&location=" + location + "&city=" + city + "&edu=" + edu + "&contact=" + contact;
+                $http.get(url).then(fxSuccess, fxFail);
+
+                function fxSuccess(response) {
+                    $scope.jsonAry = response.data;
+                    $scope.dogetjobs(email);
+                }
+                function fxFail(err) {
+                    alert(err.data);
+                }
+            }
+        });
+    </script>
+
+    
+</head>
+<body ng-app="clientDashboardApp" ng-controller="JobManagerController" onload="init();">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <h2 class="text-center text-white my-4">Client Hub</h2>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="./0_client-dash.html">
+                                <i class="bi bi-grid-fill me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./0_client-profile.html">
+                                <i class="bi bi-person-circle me-2"></i>Profile
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3">
+                    <h1 class="h2">Job Manager</h1>
+                </div>
+
+                <!-- Job Search Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <label for="emailid" class="form-label">Email ID</label>
+                                        <input type="email" class="form-control" id="email" ng-model="email" placeholder="Enter your email" readonly>
+                                    </div>
+                                    <div class="col-md-6 align-self-end">
+                                        <button class="btn btn-primary" ng-click="dogetjobs(email)">
+                                            Get All Published Jobs
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Listings Table -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Opportunity ID</th>
+                                                <th>Opportunity Title</th>
+                                                <th>Type</th>
+                                                <th>Location</th>
+                                                <th>City</th>
+                                                <th>Education</th>
+                                                <th>Contact</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="obj in jsonAry" class="job-card-hover">
+                                                <td>{{obj.cid}}</td>
+                                                <td>{{obj.jobtitle}}</td>
+                                                <td>{{obj.jobtype}}</td>
+                                                <td>{{obj.address}}</td>
+                                                <td>{{obj.city}}</td>
+                                                <td>{{obj.education}}</td>
+                                                <td>{{obj.contact}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" 
+                                                        ng-click="doDelete(obj.cid, obj.jobtitle, obj.jobtype, obj.address, obj.city, obj.education, obj.contact)">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
