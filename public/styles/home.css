@@ -100,59 +100,82 @@
 }
 
 @media (max-width: 768px) {
-  /* Fix for navbar on mobile */
+  /* Fix navbar container for mobile */
   .navbar .container-fluid {
-      justify-content: center !important;
-      text-align: center;
+    flex-direction: column;
+    padding: 10px;
+    height: auto;
   }
   
+  /* Logo and title section */
+  .navbar .container-fluid > div:first-child {
+    margin-bottom: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Button container */
   .navbar .btns {
-      margin-top: 10px;
-      display: flex;
-      width: 100%;
-      justify-content: center;
+    /* margin-top: 10px; */
+    display: flex;
+    width: auto;
+    justify-content: center;
+    background-color: transparent; /* Remove the tomato background */
+  }
+  
+  /* Make buttons more mobile-friendly */
+  .navbar .btns .btn {
+    padding: 8px 16px;
+    margin: 0 5px;
+    font-size: 14px;
   }
   
   /* Fix carousel height for mobile */
-  .carousel-item img {
-      height: 300px !important;
-      object-fit: cover !important;
+  #carouselExampleIndicators, 
+  .carousel {
+    height: 300px;
   }
   
+  .carousel-item img {
+    height: 300px !important;
+    object-fit: cover !important;
+  }
+  
+  /* Rest of your mobile styling remains the same */
   /* Services section for mobile */
   .services-section .col-md-8.col-lg-4 {
-      margin: 0 auto;
+    margin: 10px auto;
   }
   
   /* How it works section for mobile */
   .how-itw .row {
-      padding-left: 15px !important;
-      padding-right: 15px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
   }
   
   /* Developers section for mobile */
   .developers-section .col-md-5 {
-      margin-left: auto !important;
-      margin-right: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   
   /* Fix map iframe width for mobile */
   iframe {
-      width: 100% !important;
-      height: 300px !important;
+    width: 100% !important;
+    height: 300px !important;
   }
   
   /* Modal fixes for mobile */
   .modal-dialog {
-      margin: 10px;
+    margin: 10px;
   }
   
   .modal-content {
-      width: 100%;
+    width: 100%;
   }
   
   /* Input fields in modals */
   input, select {
-      max-width: 90%;
+    max-width: 90%;
   }
 }
