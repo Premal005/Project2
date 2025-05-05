@@ -47,7 +47,7 @@ app.get("/save-details",function(req,resp){
         else{
             mySqlServer.query("INSERT INTO users VALUES (?,?,?,CURDATE(),?)", [req.query.x, req.query.y, req.query.z,"1"], function (err) {
                 if (err == null) {
-                    resp.send("Signup Successful!!");
+                    resp.send("Signup Successful!! Redirecting to Login");
                 } else {
                     resp.send("Duplicate Entry!");
                 }
@@ -441,7 +441,6 @@ app.get("/client-Unblock",function(req,resp){
     })
 })
 
-
 //------------access all cities of client post
 app.get("/all-records-client-city", function (req, resp) {
     mySqlServer.query("select distinct city from JOBS ", function (err, result) {
@@ -460,8 +459,6 @@ app.get("/all-jobs", function (req, resp) {
         resp.send(result);
     })
 })
-
-
 
 app.get("/search-job", function (req, resp) {
     mySqlServer.query("select * from JOBS where city=? and jobtitle=? and education=? ",[req.query.Citykuch,req.query.Jobtitle,req.query.edu], function (err, result) {
